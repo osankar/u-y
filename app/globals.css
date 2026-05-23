@@ -1,0 +1,44 @@
+@import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #FAF7F2;
+  --surface: #FFFFFF;
+  --surface-alt: #F4EFE7;
+
+  --text: #1A1A1A;
+  --text-muted: #6B6B6B;
+  --text-subtle: #9B9B9B;
+
+  --accent: #C75D2C;
+  --accent-hover: #A84A1F;
+  --accent-soft: #FDF1EB;
+  --accent-soft-strong: #F8DDC8;
+  --accent-deep: #712B13;
+
+  --border: #E8E4DD;
+  --border-strong: #D5CFC4;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 640px) {
+  .nav-link-hidden {
+    display: none;
+  }
+}
