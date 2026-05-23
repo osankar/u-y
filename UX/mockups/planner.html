@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan your event budget — Utsav Yojana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+<style>
+  :root {
+    --bg: #FAF7F2;
+    --surface: #FFFFFF;
+    --surface-alt: #F4EFE7;
+    --text: #1A1A1A;
+    --text-muted: #6B6B6B;
+    --text-subtle: #9B9B9B;
+    --accent: #C75D2C;
+    --accent-hover: #A84A1F;
+    --accent-soft: #FDF1EB;
+    --accent-soft-strong: #F8DDC8;
+    --accent-deep: #712B13;
+    --border: #E8E4DD;
+    --border-strong: #D5CFC4;
+    --positive: #5E7C4D;
+    --positive-soft: #EAEFE2;
+    --negative: #B05050;
+    --negative-soft: #F5E3E3;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, -apple-system, sans-serif; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  input, button, select { font-family: inherit; }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .col { max-width: 820px; }
+
+  header.site {
+    border-bottom: 0.5px solid var(--border);
+    background: var(--bg);
+    position: sticky; top: 0; z-index: 20;
+    backdrop-filter: blur(8px);
+  }
+  header .row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; }
+  .logo { display: flex; flex-direction: column; line-height: 1; text-decoration: none; color: inherit; }
+  .logo-main { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; letter-spacing: -0.01em; }
+  .logo-sub { font-family: 'Fraunces', serif; font-size: 10px; color: var(--text-subtle); margin-top: 3px; letter-spacing: 0.06em; }
+  nav.primary { display: flex; gap: 24px; align-items: center; }
+  nav.primary a { font-size: 13.5px; font-weight: 500; text-decoration: none; }
+  nav.primary a:hover { color: var(--accent); }
+  .list-btn { border: 1px solid var(--text); padding: 8px 16px; border-radius: 999px; font-size: 12.5px; }
+  .list-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  /* Hero / setup */
+  .hero { padding: 36px 0 20px; }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 34px; font-weight: 500;
+    letter-spacing: -0.02em; line-height: 1.1;
+    margin: 0 0 8px; max-width: 820px;
+  }
+  .hero .sub {
+    font-size: 14.5px; color: var(--text-muted);
+    max-width: 620px; margin: 0 0 24px; line-height: 1.5;
+  }
+
+  .setup-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    max-width: 820px;
+  }
+  .setup-lab {
+    display: block;
+    font-size: 10.5px; color: var(--text-subtle);
+    font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .opt {
+    color: var(--text-subtle); font-weight: 400; font-size: 11px;
+    text-transform: none; letter-spacing: 0; margin-left: 4px;
+  }
+  .event-row { margin-bottom: 16px; }
+  .event-chips {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .event-chip {
+    border: 0.5px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text);
+    padding: 6px 13px;
+    border-radius: 999px;
+    font-size: 12.5px; font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .event-chip:hover { border-color: var(--text); }
+  .event-chip.selected {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .setup-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    padding-top: 16px;
+    border-top: 0.5px solid var(--border);
+  }
+  .budget-wrap, .city-wrap { display: flex; flex-direction: column; }
+  .budget-input {
+    display: flex; align-items: center; gap: 4px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 9px 14px;
+    background: var(--bg);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .budget-input:focus-within { border-color: var(--accent); background: var(--surface); }
+  .budget-input .currency {
+    font-family: 'Fraunces', serif;
+    font-size: 18px; font-weight: 500;
+    color: var(--text-muted);
+  }
+  .budget-input input {
+    border: none; outline: none; background: transparent;
+    font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500;
+    color: var(--text);
+    width: 100%;
+    padding: 0;
+  }
+  .city-input {
+    border: 0.5px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 14px; background: var(--bg); color: var(--text);
+  }
+  .city-input:focus { outline: none; border-color: var(--accent); background: var(--surface); }
+  .city-input::placeholder { color: var(--text-subtle); }
+
+  /* Sticky summary */
+  .summary-wrap {
+    position: sticky; top: 53px; z-index: 15;
+    background: var(--bg);
+    border-bottom: 0.5px solid var(--border);
+    padding: 14px 0;
+  }
+  .summary {
+    max-width: 820px;
+    display: flex; align-items: center; gap: 22px;
+    flex-wrap: wrap;
+  }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-lab { font-size: 10.5px; color: var(--text-subtle); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+  .stat-val { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 500; letter-spacing: -0.01em; }
+  .stat.positive .stat-val { color: var(--positive); }
+  .stat.negative .stat-val { color: var(--negative); }
+  .stat .pct {
+    font-size: 11px; color: var(--text-subtle); margin-top: 1px; font-weight: 400;
+  }
+  .summary-spacer { flex: 1; }
+  .export-btn {
+    background: var(--accent); color: white; border: none;
+    padding: 10px 18px; border-radius: 999px;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 7px;
+    transition: background 0.15s;
+  }
+  .export-btn:hover { background: var(--accent-hover); }
+
+  /* Items */
+  .items-section { padding: 28px 0 60px; }
+  .items-head {
+    max-width: 820px;
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 14px; gap: 16px;
+  }
+  .items-head h2 {
+    font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500;
+    margin: 0; letter-spacing: -0.015em;
+  }
+  .items-head .head-meta { font-size: 12.5px; color: var(--text-muted); }
+
+  .item-list { max-width: 820px; }
+  .item {
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 6px;
+    transition: border-color 0.15s;
+  }
+  .item:hover { border-color: var(--border-strong); }
+  .item-icon { color: var(--accent); font-size: 18px; line-height: 1; }
+  .item-main { min-width: 0; }
+  .item-name {
+    font-family: 'Fraunces', serif;
+    font-size: 15px; font-weight: 500;
+    margin-bottom: 2px;
+    letter-spacing: -0.005em;
+  }
+  .item-meta {
+    font-size: 11.5px; color: var(--text-subtle);
+    display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap;
+  }
+  .item-meta .pct-badge {
+    color: var(--text-muted);
+  }
+  .item-meta .find {
+    color: var(--accent); font-weight: 500; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 3px;
+  }
+  .item-meta .find:hover { text-decoration: underline; }
+
+  .item-amount {
+    display: flex; align-items: center; gap: 2px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: 7px;
+    padding: 7px 11px;
+    background: var(--bg);
+    width: 140px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .item-amount:focus-within { border-color: var(--accent); background: var(--surface); }
+  .item-amount .currency {
+    font-size: 13px; color: var(--text-muted);
+  }
+  .item-amount input {
+    border: none; outline: none; background: transparent;
+    font-size: 14px; font-weight: 500;
+    color: var(--text);
+    width: 100%;
+    padding: 0;
+    text-align: right;
+    -moz-appearance: textfield;
+  }
+  .item-amount input::-webkit-outer-spin-button,
+  .item-amount input::-webkit-inner-spin-button {
+    -webkit-appearance: none; margin: 0;
+  }
+
+  .add-item {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: transparent; border: 0.5px dashed var(--border-strong);
+    color: var(--text-muted);
+    padding: 10px 16px; border-radius: 999px;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    margin-top: 14px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .add-item:hover { border-color: var(--text); color: var(--text); }
+
+  /* Hint card */
+  .hint-card {
+    background: var(--accent-soft);
+    border: 0.5px solid var(--accent-soft-strong);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 24px;
+    max-width: 820px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .hint-card i { color: var(--accent); font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .hint-card p {
+    margin: 0; font-size: 13px; color: var(--accent-deep); line-height: 1.55;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--text); color: var(--bg);
+    padding: 12px 22px; border-radius: 999px;
+    font-size: 13.5px; font-weight: 500;
+    box-shadow: 0 8px 24px rgba(26,26,26,0.2);
+    opacity: 0; transition: opacity 0.2s, transform 0.2s;
+    z-index: 100;
+    display: flex; align-items: center; gap: 8px;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+  .toast i { color: var(--accent-soft-strong); }
+
+  /* Footer */
+  footer.site { border-top: 0.5px solid var(--border); padding: 22px 0; }
+  footer .row { display: flex; justify-content: space-between; align-items: center; }
+  .foot-left { font-size: 12.5px; color: var(--text-subtle); }
+  .foot-links { display: flex; gap: 20px; }
+  .foot-links a { font-size: 12.5px; color: var(--text-muted); text-decoration: none; }
+
+  @media (max-width: 900px) {
+    .container { padding: 0 18px; }
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 0 16px; }
+    header .row { padding: 12px 0; }
+    .logo-main { font-size: 17px; }
+    .logo-sub { font-size: 9px; margin-top: 2px; }
+    nav.primary { gap: 0; }
+    nav.primary a:not(.list-btn) { display: none; }
+
+    .hero { padding: 24px 0 16px; }
+    .hero h1 { font-size: 26px; line-height: 1.1; }
+    .hero .sub { font-size: 13.5px; margin-bottom: 18px; }
+
+    .setup-card { padding: 14px 16px; border-radius: 12px; }
+    .event-chip { font-size: 12px; padding: 5px 11px; }
+    .setup-row { grid-template-columns: 1fr; gap: 12px; }
+    .budget-input { padding: 7px 12px; }
+    .budget-input input { font-size: 18px; }
+    .budget-input .currency { font-size: 15px; }
+    .city-input { padding: 10px 12px; font-size: 13.5px; }
+
+    .summary-wrap { padding: 10px 0; top: 49px; }
+    .summary { gap: 12px 16px; }
+    .stat-lab { font-size: 9.5px; }
+    .stat-val { font-size: 15px; }
+    .stat .pct { display: none; }
+    .summary-spacer { display: none; }
+    .export-btn { padding: 8px 14px; font-size: 12px; }
+
+    .items-section { padding: 20px 0 40px; }
+    .items-head h2 { font-size: 18px; }
+    .items-head .head-meta { font-size: 11.5px; }
+
+    .item {
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      padding: 12px 14px;
+      row-gap: 8px;
+    }
+    .item-icon { font-size: 16px; }
+    .item-name { font-size: 14px; }
+    .item-meta { font-size: 11px; gap: 8px; }
+    .item-amount {
+      grid-column: 1 / -1;
+      width: 100%;
+      padding: 8px 12px;
+    }
+    .item-amount input { font-size: 14px; text-align: left; }
+
+    .hint-card { padding: 12px 14px; }
+    .hint-card p { font-size: 12.5px; }
+
+    footer.site { padding: 16px 0; }
+    footer .row { flex-direction: column-reverse; gap: 10px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="container row">
+    <a href="home.html" class="logo">
+      <span class="logo-main">Utsav Yojana</span>
+      <span class="logo-sub">उत्सव योजना</span>
+    </a>
+    <nav class="primary">
+      <a href="browse.html">Browse vendors</a>
+      <a href="planner.html">Plan an event</a>
+      <a href="#" class="list-btn">List your business</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Plan your event budget</h1>
+    <p class="sub">Pick the event, set a total, and we'll suggest how to split it. Edit any line, then export when you're ready to share with family.</p>
+
+    <div class="setup-card">
+      <div class="event-row">
+        <label class="setup-lab">Event type</label>
+        <div class="event-chips" id="event-chips">
+          <button class="event-chip selected" data-event="wedding">Wedding</button>
+          <button class="event-chip" data-event="engagement">Engagement</button>
+          <button class="event-chip" data-event="baby-shower">Baby shower</button>
+          <button class="event-chip" data-event="housewarming">Housewarming</button>
+          <button class="event-chip" data-event="puja">Puja / Ritual</button>
+          <button class="event-chip" data-event="birthday">Birthday</button>
+          <button class="event-chip" data-event="anniversary">Anniversary</button>
+          <button class="event-chip" data-event="graduation">Graduation</button>
+        </div>
+      </div>
+
+      <div class="setup-row">
+        <div class="budget-wrap">
+          <label class="setup-lab" for="total-budget">Total budget</label>
+          <div class="budget-input">
+            <span class="currency">$</span>
+            <input type="number" id="total-budget" value="30000" min="0" step="500">
+          </div>
+        </div>
+        <div class="city-wrap">
+          <label class="setup-lab" for="city">City <span class="opt">optional, used for vendor links</span></label>
+          <input class="city-input" type="text" id="city" placeholder="Bay Area, NJ, Houston…">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="summary-wrap">
+  <div class="container">
+    <div class="summary">
+      <div class="stat">
+        <span class="stat-lab">Total budget</span>
+        <span class="stat-val" id="sum-total">$30,000</span>
+      </div>
+      <div class="stat">
+        <span class="stat-lab">Allocated</span>
+        <span class="stat-val" id="sum-allocated">$28,500</span>
+        <span class="pct" id="sum-allocated-pct">95% of total</span>
+      </div>
+      <div class="stat positive" id="sum-remaining-wrap">
+        <span class="stat-lab" id="sum-remaining-lab">Remaining</span>
+        <span class="stat-val" id="sum-remaining">$1,500</span>
+      </div>
+      <div class="summary-spacer"></div>
+      <button class="export-btn" id="export-btn">
+        <i class="ti ti-download"></i>
+        Export to PDF
+      </button>
+    </div>
+  </div>
+</div>
+
+<section class="items-section">
+  <div class="container">
+    <div class="items-head">
+      <h2>Your budget breakdown</h2>
+      <span class="head-meta">Suggested percentages based on typical Indian weddings</span>
+    </div>
+
+    <div class="item-list" id="item-list">
+      <div class="item" data-pct="30" data-cat="venue">
+        <div class="item-icon"><i class="ti ti-building-community"></i></div>
+        <div class="item-main">
+          <div class="item-name">Venue</div>
+          <div class="item-meta">
+            <span class="pct-badge"><span class="pct-val">30%</span> of total</span>
+            <a href="browse.html" class="find">Find vendors<i class="ti ti-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="item-amount">
+          <span class="currency">$</span>
+          <input type="number" value="9000" min="0" step="100">
+        </div>
+      </div>
+
+      <div class="item" data-pct="25" data-cat="caterer">
+        <div class="item-icon"><i class="ti ti-tools-kitchen-2"></i></div>
+        <div class="item-main">
+          <div class="item-name">Catering</div>
+          <div class="item-meta">
+            <span class="pct-badge"><span class="pct-val">25%</span> of total</span>
+            <a href="browse.html" class="find">Find vendors<i class="ti ti-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="item-amount">
+          <span class="currency">$</span>
+          <input type="number" value="7500" min="0" step="100">
+        </div>
+      </div>
+
+      <div class="item" data-pct="10" data-cat="decorator">
+        <div class="item-icon"><i class="ti ti-flower"></i></div>
+        <div class="item-main">
+          <div class="item-name">Decor &amp; mandap</div>
+          <div class="item-meta">
+            <span class="pct-badge"><span class="pct-val">10%</span> of total</span>
+            <a href="browse.html" class="find">Find vendors<i class="ti ti-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="item-amount">
+          <span class="currency">$</span>
+          <input type="number" value="3000" min="0" step="100">
+        </div>
+      </div>
+
+      <div class="item" data-pct="8" data-cat="photographer">
+        <div class="item-icon"><i class="ti ti-camera"></i></div>
+        <div class="item-main">
+          <div class="item-name">Photography</div>
+          <div class="item-meta">
+            <span class="pct-badge"><span class="pct-val">8%</span> of total</span>
+            <a href="browse.html" class="find">Find vendors<i class="ti ti-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="item-amount">
+          <span class="currency">$</span>
+          <input type="number" value="2400" min="0" step="100">
+        </div>
+      </div>
+
+      <div class="item" data-pct="5" data-cat="videographer">
+        <div class="item-icon"><i class="ti ti-video"></i></div>
+        <div class="item-main">
+          <div class="item-name">Videography</div>
+          <div class="item-meta">
+            <span class="pct-badge"><span class="pct-val">5%</span> of total</span>
+            <a href="browse.html" class="find">Find vendors<i class="ti ti-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="item-amount">
+          <span class="currency">$</span>
+          <input type="number" value="1500" min="0" step="100">
+        </div>
+      </div>
+
+      <div class="item" data-pct="5" data-cat="dj-music">
+        <div class="item-icon"><i class="ti ti-music"></i></div>
+        <div class="item-main">
+          <div class="item-name">DJ &amp; music</div>
+          <div class="item-meta">
+            <span class="pct-badge"><span class="pct-val">5%</span> of total</span>
+            <a href="browse.html" class="find">Find vendors<i class="ti ti-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="item-amount">
+          <span class="currency">$</span>
+          <input type="number" value="1500" min="0" step="100">
+        </div>
+      </div>
+
+      <div class="item" data-pct="3" data-cat="makeup">
+        <div class="item-icon"><i class="ti ti-sparkles"></i></div>
+        <div class="item-main">
+          <div class="item-name">Bridal makeup</div>
+          <div class="item-meta">
+            <span class="pct-badge"><span class="pct-val">3%</span> of total</span>
+            <a href="browse.html" class="find">Find vendors<i class="ti ti-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="item-amount">
+          <span class="currency">$</span>
+          <input type="number" value="900" min="0" step="100">
+        </div>
+      </div>
+
+      <div class="item" data-pct="2" data-cat="mehndi">
+        <div class="item-icon"><i class="ti ti-brush"></i></div>
+        <div class="item-main">
+          <div class="item-name">Mehndi artist</div>
+          <div class="item-meta">
+            <span class="pct-badge"><span class="pct-val">2%</span> of total</span>
+            <a href="browse.html" class="find">Find vendors<i class="ti ti-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="item-amount">
+          <span class="currency">$</span>
+          <input type="number" value="600" min="0" step="100">
+        </div>
+      </div>
+
+      <div class="item" data-pct="2" data-cat="sweets">
+        <div class="item-icon"><i class="ti ti-cake"></i></div>
+        <div class="item-main">
+          <div class="item-name">Sweets / mithai</div>
+          <div class="item-meta">
+            <span class="pct-badge"><span class="pct-val">2%</span> of total</span>
+            <a href="browse.html" class="find">Find vendors<i class="ti ti-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="item-amount">
+          <span class="currency">$</span>
+          <input type="number" value="600" min="0" step="100">
+        </div>
+      </div>
+
+      <div class="item" data-pct="2" data-cat="transport">
+        <div class="item-icon"><i class="ti ti-car"></i></div>
+        <div class="item-main">
+          <div class="item-name">Transportation</div>
+          <div class="item-meta">
+            <span class="pct-badge"><span class="pct-val">2%</span> of total</span>
+            <a href="browse.html" class="find">Find vendors<i class="ti ti-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="item-amount">
+          <span class="currency">$</span>
+          <input type="number" value="600" min="0" step="100">
+        </div>
+      </div>
+
+      <div class="item" data-pct="1.5" data-cat="pandit">
+        <div class="item-icon"><i class="ti ti-flame"></i></div>
+        <div class="item-main">
+          <div class="item-name">Pandit / priest</div>
+          <div class="item-meta">
+            <span class="pct-badge"><span class="pct-val">1.5%</span> of total</span>
+            <a href="browse.html" class="find">Find vendors<i class="ti ti-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="item-amount">
+          <span class="currency">$</span>
+          <input type="number" value="450" min="0" step="50">
+        </div>
+      </div>
+
+      <div class="item" data-pct="1.5" data-cat="invitations">
+        <div class="item-icon"><i class="ti ti-mail"></i></div>
+        <div class="item-main">
+          <div class="item-name">Invitations</div>
+          <div class="item-meta">
+            <span class="pct-badge"><span class="pct-val">1.5%</span> of total</span>
+            <a href="browse.html" class="find">Find vendors<i class="ti ti-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="item-amount">
+          <span class="currency">$</span>
+          <input type="number" value="450" min="0" step="50">
+        </div>
+      </div>
+    </div>
+
+    <button class="add-item" id="add-item"><i class="ti ti-plus"></i> Add custom item</button>
+
+    <div class="hint-card">
+      <i class="ti ti-info-circle"></i>
+      <p>Percentages come from typical Bay Area Indian weddings. Your event may look very different — adjust freely. Nothing here is saved on our servers; if you close this tab, the numbers reset.</p>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toast">
+  <i class="ti ti-check"></i>
+  <span>Your budget PDF is downloading</span>
+</div>
+
+<footer class="site">
+  <div class="container row">
+    <div class="foot-left">Made for the Indian community in the US</div>
+    <div class="foot-links">
+      <a href="#">About</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const totalInput = document.getElementById('total-budget');
+  const sumTotal = document.getElementById('sum-total');
+  const sumAllocated = document.getElementById('sum-allocated');
+  const sumAllocatedPct = document.getElementById('sum-allocated-pct');
+  const sumRemaining = document.getElementById('sum-remaining');
+  const sumRemainingLab = document.getElementById('sum-remaining-lab');
+  const sumRemainingWrap = document.getElementById('sum-remaining-wrap');
+  const itemList = document.getElementById('item-list');
+
+  const fmt = (n) => '$' + Math.round(n).toLocaleString();
+
+  function recalc() {
+    const total = parseFloat(totalInput.value) || 0;
+    let allocated = 0;
+    itemList.querySelectorAll('.item').forEach(item => {
+      const input = item.querySelector('.item-amount input');
+      const val = parseFloat(input.value) || 0;
+      allocated += val;
+      const pct = total > 0 ? (val / total) * 100 : 0;
+      const pctEl = item.querySelector('.pct-val');
+      if (pctEl) pctEl.textContent = pct.toFixed(pct < 10 ? 1 : 0) + '%';
+    });
+    sumTotal.textContent = fmt(total);
+    sumAllocated.textContent = fmt(allocated);
+    const allocPct = total > 0 ? Math.round((allocated / total) * 100) : 0;
+    sumAllocatedPct.textContent = allocPct + '% of total';
+
+    const remaining = total - allocated;
+    sumRemaining.textContent = fmt(Math.abs(remaining));
+    sumRemainingWrap.classList.remove('positive', 'negative');
+    if (remaining >= 0) {
+      sumRemainingLab.textContent = 'Remaining';
+      sumRemainingWrap.classList.add('positive');
+    } else {
+      sumRemainingLab.textContent = 'Over budget';
+      sumRemainingWrap.classList.add('negative');
+    }
+  }
+
+  function applyTemplate() {
+    const total = parseFloat(totalInput.value) || 0;
+    itemList.querySelectorAll('.item').forEach(item => {
+      const pct = parseFloat(item.dataset.pct);
+      const input = item.querySelector('.item-amount input');
+      input.value = Math.round(total * pct / 100 / 50) * 50;
+    });
+    recalc();
+  }
+
+  totalInput.addEventListener('input', applyTemplate);
+  itemList.addEventListener('input', (e) => {
+    if (e.target.matches('.item-amount input')) recalc();
+  });
+
+  document.querySelectorAll('.event-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.event-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+    });
+  });
+
+  const toast = document.getElementById('toast');
+  document.getElementById('export-btn').addEventListener('click', () => {
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2400);
+  });
+
+  document.getElementById('add-item').addEventListener('click', () => {
+    const item = document.createElement('div');
+    item.className = 'item';
+    item.dataset.pct = '0';
+    item.innerHTML = `
+      <div class="item-icon"><i class="ti ti-plus"></i></div>
+      <div class="item-main">
+        <div class="item-name" contenteditable="true">Custom item</div>
+        <div class="item-meta">
+          <span class="pct-badge"><span class="pct-val">0%</span> of total</span>
+        </div>
+      </div>
+      <div class="item-amount">
+        <span class="currency">$</span>
+        <input type="number" value="0" min="0" step="50">
+      </div>
+    `;
+    itemList.appendChild(item);
+    recalc();
+    item.querySelector('.item-name').focus();
+  });
+
+  recalc();
+</script>
+
+</body>
+</html>

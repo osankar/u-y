@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photographers in Bay Area — Utsav Yojana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+<style>
+  :root {
+    --bg: #FAF7F2;
+    --surface: #FFFFFF;
+    --surface-alt: #F4EFE7;
+    --text: #1A1A1A;
+    --text-muted: #6B6B6B;
+    --text-subtle: #9B9B9B;
+    --accent: #C75D2C;
+    --accent-hover: #A84A1F;
+    --accent-soft: #FDF1EB;
+    --accent-soft-strong: #F8DDC8;
+    --accent-deep: #712B13;
+    --border: #E8E4DD;
+    --border-strong: #D5CFC4;
+    --shadow-sm: 0 1px 2px rgba(26,26,26,0.04);
+    --shadow-md: 0 4px 16px rgba(26,26,26,0.06);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, -apple-system, sans-serif; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  header.site {
+    border-bottom: 0.5px solid var(--border);
+    background: var(--bg);
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(8px);
+  }
+  header .row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; }
+  .logo { display: flex; flex-direction: column; line-height: 1; text-decoration: none; color: inherit; }
+  .logo-main { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; letter-spacing: -0.01em; }
+  .logo-sub { font-family: 'Fraunces', serif; font-size: 10px; color: var(--text-subtle); margin-top: 3px; letter-spacing: 0.06em; }
+  nav.primary { display: flex; gap: 24px; align-items: center; }
+  nav.primary a { font-size: 13.5px; font-weight: 500; text-decoration: none; }
+  nav.primary a:hover { color: var(--accent); }
+  .list-btn { border: 1px solid var(--text); padding: 8px 16px; border-radius: 999px; font-size: 12.5px; }
+  .list-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  .breadcrumb { padding: 22px 0 0; font-size: 13px; color: var(--text-muted); }
+  .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--accent); text-decoration: underline; }
+  .breadcrumb-sep { margin: 0 8px; color: var(--text-subtle); }
+
+  .page-head { padding: 18px 0 20px; }
+  .page-head h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 32px; font-weight: 500;
+    letter-spacing: -0.02em; line-height: 1.1;
+    margin: 0 0 8px;
+  }
+  .page-head .sub {
+    font-size: 14.5px; color: var(--text-muted); margin: 0;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px;
+  }
+  .page-head .sub .dot { color: var(--text-subtle); }
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 16px;
+    margin-bottom: 22px;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .filter-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--surface);
+    border: 0.5px solid var(--border-strong);
+    border-radius: 999px;
+    padding: 7px 12px 7px 14px;
+    font-size: 12.5px; font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    font-family: inherit;
+    color: var(--text);
+  }
+  .filter-chip:hover { border-color: var(--text-subtle); }
+  .filter-chip i { font-size: 14px; color: var(--text-subtle); }
+  .filter-chip .val { color: var(--text-muted); font-weight: 400; margin-left: 2px; }
+  .filter-chip.active {
+    background: var(--accent-soft);
+    border-color: var(--accent-soft-strong);
+    color: var(--accent-deep);
+  }
+  .filter-chip.active .val { color: var(--accent); font-weight: 500; }
+  .filter-clear {
+    font-size: 12.5px; color: var(--text-muted);
+    background: none; border: none; cursor: pointer;
+    font-family: inherit; padding: 7px 4px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .filter-clear:hover { color: var(--text); }
+
+  .sort-wrap {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12.5px; color: var(--text-muted);
+  }
+  .sort-wrap select {
+    border: 0.5px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 7px 28px 7px 10px;
+    font-size: 12.5px; font-family: inherit;
+    background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6B6B' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 8px center;
+    appearance: none;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding-bottom: 48px;
+  }
+
+  .vendor-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  }
+  .vendor-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .card-img {
+    aspect-ratio: 16 / 10;
+    background: linear-gradient(135deg, var(--accent-soft) 0%, var(--accent-soft-strong) 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+    font-size: 36px;
+    position: relative;
+  }
+  .card-img.alt-1 { background: linear-gradient(135deg, #FAECE7 0%, #F0CFC0 100%); }
+  .card-img.alt-2 { background: linear-gradient(135deg, #F4EFE7 0%, #DCD3C3 100%); }
+  .card-img.alt-3 { background: linear-gradient(135deg, #F0CFC0 0%, #D8A88E 100%); }
+  .card-img.alt-4 { background: linear-gradient(135deg, #E5DED0 0%, #C5B89F 100%); }
+  .card-img.alt-5 { background: linear-gradient(135deg, #F8DDC8 0%, #E9C0A0 100%); }
+  .card-body { padding: 16px 18px 18px; flex: 1; display: flex; flex-direction: column; }
+  .card-name {
+    font-family: 'Fraunces', serif;
+    font-size: 18px; font-weight: 500;
+    margin: 0 0 4px; letter-spacing: -0.01em;
+  }
+  .card-meta { font-size: 12.5px; color: var(--text-muted); margin: 0 0 10px; }
+  .card-price {
+    font-size: 14px; font-weight: 500;
+    margin: 0 0 8px;
+  }
+  .card-price span { font-weight: 400; color: var(--text-muted); font-size: 12.5px; }
+  .card-desc {
+    font-size: 13px; color: var(--text-muted);
+    margin: 0 0 12px; line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+  }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .card-tag {
+    font-size: 11px; padding: 4px 9px;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-muted);
+    border: 0.5px solid var(--border-strong);
+  }
+
+  .pagination {
+    display: flex; justify-content: center; align-items: center;
+    gap: 8px; padding: 8px 0 40px;
+  }
+  .page-btn {
+    border: 0.5px solid var(--border-strong);
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px; font-family: inherit;
+    cursor: pointer; color: var(--text);
+  }
+  .page-btn:hover { border-color: var(--text-subtle); }
+  .page-btn.active {
+    background: var(--text); color: var(--bg);
+    border-color: var(--text);
+  }
+  .page-btn:disabled { opacity: 0.4; cursor: default; }
+  .page-ellipsis { font-size: 13px; color: var(--text-subtle); padding: 0 4px; }
+
+  .empty-hint {
+    background: var(--surface-alt);
+    border: 0.5px dashed var(--border-strong);
+    border-radius: 14px;
+    padding: 32px 28px;
+    text-align: center;
+    margin-bottom: 48px;
+    display: none;
+  }
+  .empty-hint h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 20px; font-weight: 500; margin: 0 0 8px;
+  }
+  .empty-hint p { font-size: 13.5px; color: var(--text-muted); margin: 0 0 16px; max-width: 400px; margin-left: auto; margin-right: auto; }
+  .empty-hint a {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 500; color: var(--accent);
+    text-decoration: none;
+  }
+  .empty-hint a:hover { text-decoration: underline; }
+
+  footer.site {
+    border-top: 0.5px solid var(--border);
+    padding: 22px 0;
+  }
+  footer .row { display: flex; justify-content: space-between; align-items: center; }
+  .foot-left { font-size: 12.5px; color: var(--text-subtle); }
+  .foot-links { display: flex; gap: 20px; }
+  .foot-links a { font-size: 12.5px; color: var(--text-muted); text-decoration: none; }
+  .foot-links a:hover { color: var(--text); }
+
+  @media (max-width: 900px) {
+    .container { padding: 0 18px; }
+    .results-grid { gap: 14px; }
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 0 16px; }
+    header .row { padding: 12px 0; }
+    .logo-main { font-size: 17px; }
+    nav.primary a:not(.list-btn) { display: none; }
+
+    .breadcrumb { padding-top: 16px; font-size: 12px; }
+    .page-head { padding: 14px 0 16px; }
+    .page-head h1 { font-size: 24px; }
+    .page-head .sub { font-size: 13px; }
+
+    .toolbar { flex-direction: column; align-items: stretch; margin-bottom: 16px; }
+    .filters { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+    .filter-clear { flex-shrink: 0; }
+    .sort-wrap { justify-content: space-between; }
+
+    .results-grid { grid-template-columns: 1fr; gap: 12px; padding-bottom: 32px; }
+    .card-name { font-size: 17px; }
+    .card-body { padding: 14px 16px 16px; }
+
+    footer .row { flex-direction: column-reverse; gap: 10px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="container row">
+    <a href="home.html" class="logo">
+      <span class="logo-main">Utsav Yojana</span>
+      <span class="logo-sub">उत्सव योजना</span>
+    </a>
+    <nav class="primary">
+      <a href="browse.html">Browse vendors</a>
+      <a href="#">Plan an event</a>
+      <a href="#" class="list-btn">List your business</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="home.html">Home</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="#">Bay Area</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Photographers</span>
+  </div>
+
+  <div class="page-head">
+    <h1>Photographers in Bay Area</h1>
+    <p class="sub">
+      <span>12 vendors</span>
+      <span class="dot">·</span>
+      <span>SF · Fremont · San Jose · Oakland</span>
+    </p>
+  </div>
+
+  <div class="toolbar">
+    <div class="filters">
+      <button type="button" class="filter-chip active">
+        Category <span class="val">Photographer</span>
+        <i class="ti ti-chevron-down"></i>
+      </button>
+      <button type="button" class="filter-chip active">
+        City <span class="val">Bay Area</span>
+        <i class="ti ti-chevron-down"></i>
+      </button>
+      <button type="button" class="filter-chip">
+        Budget <span class="val">Any</span>
+        <i class="ti ti-chevron-down"></i>
+      </button>
+      <button type="button" class="filter-clear">Clear filters</button>
+    </div>
+    <div class="sort-wrap">
+      <label for="sort">Sort</label>
+      <select id="sort">
+        <option>Recommended</option>
+        <option>Price: low to high</option>
+        <option>Price: high to low</option>
+        <option>Recently added</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="results-grid">
+    <a href="vendor-profile.html" class="vendor-card">
+      <div class="card-img">
+                <i class="ti ti-photo"></i>
+      </div>
+      <div class="card-body">
+        <h2 class="card-name">Studio Saanjh</h2>
+        <p class="card-meta">Photography &amp; videography · Fremont, CA</p>
+        <p class="card-price">$3,200 – $9,500 <span>per event</span></p>
+        <p class="card-desc">Husband-and-wife documentary team. 80+ South Asian weddings — sangeets, pheras, and the candid moments in between.</p>
+        <div class="card-tags">
+          <span class="card-tag">Documentary</span>
+          <span class="card-tag">EN · HI · PA</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="vendor-card">
+      <div class="card-img alt-1"><span class="card-vetted"><i class="ti ti-check"></i> Vetted</span><i class="ti ti-photo"></i></div>
+      <div class="card-body">
+        <h2 class="card-name">Lens &amp; Garba</h2>
+        <p class="card-meta">Photography · San Jose, CA</p>
+        <p class="card-price">$2,400 – $6,800 <span>per event</span></p>
+        <p class="card-desc">Specializes in high-energy sangeets and garba nights. Flash-friendly coverage without losing the mood on the floor.</p>
+        <div class="card-tags">
+          <span class="card-tag">Sangeet · garba</span>
+          <span class="card-tag">EN · GU</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="vendor-card">
+      <div class="card-img alt-2"><span class="card-vetted"><i class="ti ti-check"></i> Vetted</span><i class="ti ti-photo"></i></div>
+      <div class="card-body">
+        <h2 class="card-name">Arjun Nair Photography</h2>
+        <p class="card-meta">Photography · Palo Alto, CA</p>
+        <p class="card-price">$4,500 – $12,000 <span>per event</span></p>
+        <p class="card-desc">Fine-art editorial style for multi-day weddings. Second shooter and drone add-ons available for outdoor ceremonies.</p>
+        <div class="card-tags">
+          <span class="card-tag">Editorial</span>
+          <span class="card-tag">Multi-day</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="vendor-card">
+      <div class="card-img alt-3"><span class="card-vetted"><i class="ti ti-check"></i> Vetted</span><i class="ti ti-photo"></i></div>
+      <div class="card-body">
+        <h2 class="card-name">Rang Mahal Studios</h2>
+        <p class="card-meta">Photography &amp; videography · Milpitas, CA</p>
+        <p class="card-price">$2,800 – $7,200 <span>per event</span></p>
+        <p class="card-desc">Family-run studio covering Telugu and Kannada weddings across the South Bay. Same-day teaser reels for sangeet nights.</p>
+        <div class="card-tags">
+          <span class="card-tag">Teaser reel</span>
+          <span class="card-tag">EN · TE · KN</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="vendor-card">
+      <div class="card-img alt-4"><span class="card-vetted"><i class="ti ti-check"></i> Vetted</span><i class="ti ti-photo"></i></div>
+      <div class="card-body">
+        <h2 class="card-name">Meera Shah Photo</h2>
+        <p class="card-meta">Photography · Berkeley, CA</p>
+        <p class="card-price">$1,800 – $4,500 <span>per event</span></p>
+        <p class="card-desc">Intimate events and home pujas. Ideal for baby showers, griha pravesh, and smaller gatherings under 100 guests.</p>
+        <div class="card-tags">
+          <span class="card-tag">Small events</span>
+          <span class="card-tag">EN · HI</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="#" class="vendor-card">
+      <div class="card-img alt-5"><span class="card-vetted"><i class="ti ti-check"></i> Vetted</span><i class="ti ti-photo"></i></div>
+      <div class="card-body">
+        <h2 class="card-name">Golden Hour Collective</h2>
+        <p class="card-meta">Photography · Oakland, CA</p>
+        <p class="card-price">$3,600 – $8,900 <span>per event</span></p>
+        <p class="card-desc">Outdoor ceremony specialists — Golden Gate Park, Napa vineyards, and backyard mandaps with natural-light portraiture.</p>
+        <div class="card-tags">
+          <span class="card-tag">Outdoor</span>
+          <span class="card-tag">EN</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <nav class="pagination" aria-label="Results pages">
+    <button type="button" class="page-btn" disabled><i class="ti ti-chevron-left"></i></button>
+    <button type="button" class="page-btn active">1</button>
+    <button type="button" class="page-btn">2</button>
+    <span class="page-ellipsis">…</span>
+    <button type="button" class="page-btn"><i class="ti ti-chevron-right"></i></button>
+  </nav>
+
+  <div class="empty-hint" id="empty-state">
+    <h2>No photographers match these filters</h2>
+    <p>Try widening your budget or picking a nearby metro. We're adding vendors in new cities every week.</p>
+    <a href="home.html"><i class="ti ti-arrow-left"></i> Browse all categories</a>
+  </div>
+</div>
+
+<footer class="site">
+  <div class="container row">
+    <div class="foot-left">Made for the Indian community in the US</div>
+    <div class="foot-links">
+      <a href="#">About</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

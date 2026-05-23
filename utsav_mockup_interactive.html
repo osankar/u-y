@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Utsav Yojana - Interactive Mockup</title>
+  <style>
+    :root {
+      --bg: #f8f7f4;
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --card: #ffffff;
+      --line: #d1d5db;
+      --accent: #0f766e;
+      --accent-soft: #dff5f2;
+      --warn: #92400e;
+      --warn-soft: #fef3c7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(135deg, #f7f4ee 0%, #f1f7f6 100%);
+    }
+    .app {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+      position: sticky;
+      top: 8px;
+      z-index: 10;
+    }
+    .brand { font-weight: 800; margin-right: auto; }
+    .tab {
+      border: 1px solid var(--line);
+      background: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .tab.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: #0b4f4a;
+    }
+    .screen { display: none; margin-top: 14px; }
+    .screen.active { display: block; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    h1,h2,h3 { margin: 0 0 8px; }
+    p { margin: 0; color: var(--muted); }
+    .row { display: grid; gap: 12px; }
+    .row.two { grid-template-columns: 1fr 1fr; }
+    .row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .hero { padding: 20px; }
+    .actions { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--line);
+      background: white;
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .input, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px;
+      background: white;
+    }
+    .vendor-card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .badges { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
+    .badge {
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      border: 1px solid var(--line);
+      background: #f9fafb;
+    }
+    .badge.verified { background: #dcfce7; border-color: #22c55e; }
+    .badge.sponsored { background: var(--warn-soft); border-color: #f59e0b; color: var(--warn); }
+    .stack { display: flex; flex-direction: column; gap: 8px; }
+    .progress {
+      height: 12px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+    .progress > span {
+      display: block;
+      height: 100%;
+      width: 48%;
+      background: var(--accent);
+    }
+    .check-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .status {
+      font-size: 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 7px;
+      background: #f3f4f6;
+    }
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      background: #111827;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 8px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all .2s ease;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .linkish {
+      color: var(--accent);
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    @media (max-width: 900px) {
+      .row.two, .row.three { grid-template-columns: 1fr; }
+      .filters { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="nav">
+      <div class="brand">Utsav Yojana</div>
+      <button class="tab active" data-screen="home">Home</button>
+      <button class="tab" data-screen="search">Vendors</button>
+      <button class="tab" data-screen="profile">Vendor Profile</button>
+      <button class="tab" data-screen="plan">My Plan</button>
+    </div>
+
+    <section id="home" class="screen active">
+      <div class="card hero">
+        <h1>Plan your celebration with trusted vendors</h1>
+        <p>Built for the Indian diaspora in the US.</p>
+        <div class="actions">
+          <button class="btn primary" data-go="search">Find Vendors</button>
+          <button class="btn" data-go="plan">Start Planning</button>
+        </div>
+        <div class="filters">
+          <select id="homeCategory">
+            <option value="">Category</option>
+            <option>Catering</option>
+            <option>Photography</option>
+            <option>Mehendi</option>
+            <option>DJ</option>
+          </select>
+          <input id="homeCity" class="input" placeholder="City" value="Dallas" />
+          <input id="homeState" class="input" placeholder="State" value="TX" />
+          <button class="btn primary" id="homeSearchBtn">Search</button>
+        </div>
+      </div>
+      <div class="row three">
+        <div class="card"><h3>Caterers</h3><p class="linkish" data-go="search">Browse vendors</p></div>
+        <div class="card"><h3>Photographers</h3><p class="linkish" data-go="search">Browse vendors</p></div>
+        <div class="card"><h3>Decor</h3><p class="linkish" data-go="search">Browse vendors</p></div>
+      </div>
+    </section>
+
+    <section id="search" class="screen">
+      <div class="row two">
+        <div class="card">
+          <h2>Filters</h2>
+          <div class="stack">
+            <select id="fCategory">
+              <option value="">All Categories</option>
+              <option>Catering</option>
+              <option>Photography</option>
+              <option>Mehendi</option>
+              <option>DJ</option>
+            </select>
+            <input id="fCity" class="input" placeholder="City" value="Dallas" />
+            <input id="fState" class="input" placeholder="State" value="TX" />
+            <input id="fBudget" class="input" placeholder="Budget max (USD)" value="8000" />
+            <button class="btn primary" id="applyFilters">Apply Filters</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Results</h2>
+          <div id="results"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="profile" class="screen">
+      <div class="card">
+        <h2 id="pName">Vendor Name</h2>
+        <p id="pMeta">Dallas, TX • Starting at $2,500</p>
+        <div class="badges">
+          <span class="badge verified">Verified</span>
+          <span class="badge sponsored">Sponsored</span>
+        </div>
+        <div class="actions">
+          <button class="btn primary" id="sendInquiry">Send Inquiry</button>
+          <button class="btn" id="saveVendor">Save Vendor</button>
+        </div>
+      </div>
+      <div class="row two">
+        <div class="card">
+          <h3>Services</h3>
+          <p>- Full Wedding Catering</p>
+          <p>- Sangeet + Reception Packages</p>
+          <p>- Vegetarian and Jain Menus</p>
+        </div>
+        <div class="card">
+          <h3>Reviews</h3>
+          <p>“Great food and very professional team.”</p>
+          <p>“Handled our 300-guest event smoothly.”</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="plan" class="screen">
+      <div class="card">
+        <h2>My Event Plan</h2>
+        <p>Wedding • 150 guests • Dallas, TX</p>
+      </div>
+      <div class="row two">
+        <div class="card">
+          <h3>Budget Progress</h3>
+          <div class="progress"><span></span></div>
+          <p style="margin-top:8px">$12,000 used of $25,000</p>
+        </div>
+        <div class="card">
+          <h3>Inquiry Tracker</h3>
+          <p>3 sent • 1 viewed • 1 responded</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Checklist</h3>
+        <div class="check-item"><span>Venue</span><span class="status">Booked</span></div>
+        <div class="check-item"><span>Catering</span><span class="status">Shortlisted</span></div>
+        <div class="check-item"><span>Photography</span><span class="status">Planned</span></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const vendors = [
+      { name: "Annapurna Catering Co.", category: "Catering", city: "Dallas", state: "TX", price: 2500, verified: true, sponsored: true },
+      { name: "Raga Wedding Photography", category: "Photography", city: "Dallas", state: "TX", price: 1800, verified: true, sponsored: false },
+      { name: "Mehendi by Kavya", category: "Mehendi", city: "Plano", state: "TX", price: 700, verified: false, sponsored: false },
+      { name: "Bollywood Beats DJ", category: "DJ", city: "Irving", state: "TX", price: 1200, verified: true, sponsored: false }
+    ];
+
+    function showToast(msg) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      setTimeout(() => el.classList.remove("show"), 1500);
+    }
+
+    function setScreen(id) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      document.querySelector(`.tab[data-screen="${id}"]`)?.classList.add("active");
+    }
+
+    function renderResults() {
+      const c = document.getElementById("fCategory").value.trim().toLowerCase();
+      const city = document.getElementById("fCity").value.trim().toLowerCase();
+      const state = document.getElementById("fState").value.trim().toLowerCase();
+      const budget = Number(document.getElementById("fBudget").value || 0);
+
+      const filtered = vendors.filter(v => {
+        if (c && v.category.toLowerCase() !== c) return false;
+        if (city && v.city.toLowerCase() !== city) return false;
+        if (state && v.state.toLowerCase() !== state) return false;
+        if (budget && v.price > budget) return false;
+        return true;
+      });
+
+      const wrap = document.getElementById("results");
+      if (!filtered.length) {
+        wrap.innerHTML = "<p>No results found. Try broader filters.</p>";
+        return;
+      }
+
+      wrap.innerHTML = filtered.map((v, i) => `
+        <div class="vendor-card">
+          <strong>${v.name}</strong>
+          <p>${v.category} • ${v.city}, ${v.state} • Starting at $${v.price.toLocaleString()}</p>
+          <div class="badges">
+            ${v.verified ? '<span class="badge verified">Verified</span>' : ''}
+            ${v.sponsored ? '<span class="badge sponsored">Sponsored</span>' : ''}
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="openProfile(${vendors.indexOf(v)})">View Profile</button>
+            <button class="btn" onclick="showToast('Saved vendor')">Save</button>
+            <button class="btn primary" onclick="showToast('Inquiry started')">Send Inquiry</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    window.openProfile = function(index) {
+      const v = vendors[index];
+      document.getElementById("pName").textContent = v.name;
+      document.getElementById("pMeta").textContent = `${v.city}, ${v.state} • Starting at $${v.price.toLocaleString()}`;
+      setScreen("profile");
+    };
+
+    document.querySelectorAll(".tab").forEach(btn => {
+      btn.addEventListener("click", () => setScreen(btn.dataset.screen));
+    });
+
+    document.querySelectorAll("[data-go]").forEach(el => {
+      el.addEventListener("click", () => setScreen(el.dataset.go));
+    });
+
+    document.getElementById("homeSearchBtn").addEventListener("click", () => {
+      const c = document.getElementById("homeCategory").value;
+      const city = document.getElementById("homeCity").value;
+      const state = document.getElementById("homeState").value;
+      document.getElementById("fCategory").value = c;
+      document.getElementById("fCity").value = city;
+      document.getElementById("fState").value = state;
+      setScreen("search");
+      renderResults();
+    });
+
+    document.getElementById("applyFilters").addEventListener("click", renderResults);
+    document.getElementById("sendInquiry").addEventListener("click", () => showToast("Inquiry submitted"));
+    document.getElementById("saveVendor").addEventListener("click", () => showToast("Vendor saved"));
+
+    renderResults();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List your business — Utsav Yojana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+<style>
+  :root {
+    --bg: #FAF7F2;
+    --surface: #FFFFFF;
+    --text: #1A1A1A;
+    --text-muted: #6B6B6B;
+    --text-subtle: #9B9B9B;
+    --accent: #C75D2C;
+    --accent-hover: #A84A1F;
+    --accent-soft: #FDF1EB;
+    --accent-soft-strong: #F8DDC8;
+    --accent-deep: #712B13;
+    --border: #E8E4DD;
+    --border-strong: #D5CFC4;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, -apple-system, sans-serif; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .form-container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+  .hidden { display: none !important; }
+
+  header.site { border-bottom: 0.5px solid var(--border); background: var(--bg); position: sticky; top: 0; z-index: 10; backdrop-filter: blur(8px); }
+  header .row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; }
+  .logo { display: flex; flex-direction: column; line-height: 1; text-decoration: none; color: inherit; }
+  .logo-main { font-family: 'Fraunces', serif; font-weight: 500; font-size: 20px; letter-spacing: -0.01em; }
+  .logo-sub { font-family: 'Fraunces', serif; font-size: 10px; color: var(--text-subtle); margin-top: 3px; letter-spacing: 0.06em; }
+  nav.primary { display: flex; gap: 24px; align-items: center; }
+  nav.primary a { font-size: 13.5px; font-weight: 500; text-decoration: none; }
+  .help-link { color: var(--text-muted); }
+
+  .page-intro { padding: 48px 0 28px; text-align: center; }
+  .page-intro h1 { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 12px; }
+  .page-intro p { font-size: 15.5px; color: var(--text-muted); max-width: 540px; margin: 0 auto; line-height: 1.55; }
+
+  .progress { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 44px; position: relative; padding: 0 8px; }
+  .progress-line { position: absolute; top: 16px; left: 24px; right: 24px; height: 0.5px; background: var(--border); z-index: 0; }
+  .progress-line-fill { position: absolute; top: 16px; left: 24px; height: 0.5px; background: var(--accent); z-index: 0; transition: width 0.3s ease; width: 0; }
+  .step-indicator { display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; background: var(--bg); padding: 0 6px; z-index: 1; flex: 1; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--bg); border: 0.5px solid var(--border-strong); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; color: var(--text-muted); transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  .step-indicator.active .step-num, .step-indicator.done .step-num { background: var(--accent); color: white; border-color: var(--accent); }
+  .step-label { font-size: 11.5px; color: var(--text-subtle); font-weight: 500; text-align: center; line-height: 1.3; }
+  .step-indicator.active .step-label { color: var(--text); }
+  .step-indicator.done .step-label { color: var(--text-muted); }
+
+  .form-step { animation: fadeIn 0.25s ease; padding-bottom: 80px; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .step-head { margin-bottom: 26px; }
+  .step-head h2 { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 500; letter-spacing: -0.015em; margin: 0 0 6px; }
+  .step-head p { font-size: 14px; color: var(--text-muted); margin: 0; line-height: 1.55; max-width: 560px; }
+
+  .field { margin-bottom: 22px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+  .field-row .field { margin-bottom: 0; }
+  .lab { display: block; font-size: 13.5px; font-weight: 500; margin-bottom: 6px; color: var(--text); }
+  .opt { color: var(--text-subtle); font-weight: 400; font-size: 12px; margin-left: 4px; }
+  .hint { font-size: 12.5px; color: var(--text-muted); margin: 0 0 10px; line-height: 1.5; }
+  .in, select.in, textarea.in {
+    width: 100%; border: 0.5px solid var(--border-strong);
+    border-radius: 8px; padding: 11px 14px;
+    font-size: 14.5px; font-family: inherit;
+    background: var(--surface); color: var(--text);
+    transition: border-color 0.15s;
+  }
+  .in:focus { outline: none; border-color: var(--accent); }
+  textarea.in { min-height: 110px; resize: vertical; line-height: 1.55; }
+  textarea.in.tall { min-height: 140px; }
+
+  .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    border: 0.5px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .chip:hover { border-color: var(--text); }
+  .chip.selected {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .chip.selected::before { content: '✓'; font-size: 11px; }
+
+  .upload-zone {
+    border: 1.5px dashed var(--border-strong);
+    border-radius: 14px;
+    padding: 44px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    margin-bottom: 18px;
+  }
+  .upload-zone:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .upload-zone i { font-size: 32px; color: var(--accent); margin-bottom: 10px; display: block; }
+  .upload-zone .up-title { font-size: 14.5px; font-weight: 500; margin: 0 0 4px; }
+  .upload-zone .hint { margin: 0; }
+
+  .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+  .photo-thumb { aspect-ratio: 1 / 1; background: var(--accent-soft); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 22px; position: relative; }
+  .photo-thumb.first::after { content: 'Hero'; position: absolute; bottom: 4px; left: 4px; background: var(--surface); color: var(--text); font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 500; }
+  .photo-thumb.add { background: transparent; border: 0.5px dashed var(--border-strong); color: var(--text-subtle); cursor: pointer; }
+
+  .privacy-note { background: var(--accent-soft); border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--accent-deep); margin-bottom: 22px; display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; }
+  .privacy-note i { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  .agree-block { background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 14px 16px; margin: 26px 0 0; }
+  .agree-block label { font-size: 13px; display: flex; gap: 10px; align-items: flex-start; cursor: pointer; line-height: 1.5; }
+  .agree-block input { margin-top: 2px; flex-shrink: 0; }
+
+  .step-nav {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    margin-top: 36px; padding-top: 24px;
+    border-top: 0.5px solid var(--border);
+  }
+  .step-nav-right { display: flex; gap: 10px; align-items: center; }
+  .save-hint { font-size: 12px; color: var(--text-subtle); }
+  .btn-primary {
+    background: var(--accent); color: white; border: none;
+    padding: 12px 22px; border-radius: 999px;
+    font-size: 13.5px; font-weight: 500; cursor: pointer;
+    font-family: inherit;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: background 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-secondary {
+    border: 0.5px solid var(--border-strong); background: transparent;
+    color: var(--text); padding: 12px 22px; border-radius: 999px;
+    font-size: 13.5px; font-weight: 500; cursor: pointer; font-family: inherit;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { border-color: var(--text); }
+  .btn-text {
+    background: none; border: none; color: var(--text-muted);
+    font-size: 13px; cursor: pointer; font-family: inherit; padding: 8px 0;
+  }
+  .btn-text:hover { color: var(--text); }
+
+  .success-block { text-align: center; padding: 60px 24px; }
+  .success-ic { width: 64px; height: 64px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: inline-flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 22px; }
+  .success-block h2 { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 500; margin: 0 0 12px; letter-spacing: -0.015em; }
+  .success-block p { font-size: 15px; color: var(--text-muted); max-width: 460px; margin: 0 auto 10px; line-height: 1.6; }
+  .success-block .hint-block { background: var(--accent-soft); border-radius: 12px; padding: 18px 22px; margin: 28px auto 0; max-width: 460px; font-size: 13.5px; color: var(--accent-deep); line-height: 1.55; text-align: left; }
+
+  footer.site { border-top: 0.5px solid var(--border); padding: 22px 0; margin-top: 40px; }
+  footer .row { display: flex; justify-content: space-between; align-items: center; }
+  .foot-left { font-size: 12.5px; color: var(--text-subtle); }
+  .foot-links { display: flex; gap: 20px; }
+  .foot-links a { font-size: 12.5px; color: var(--text-muted); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .container, .form-container { padding: 0 16px; }
+    header .row { padding: 12px 0; }
+    .logo-main { font-size: 17px; }
+    .logo-sub { font-size: 9px; }
+    .help-link { font-size: 12.5px; }
+    .page-intro { padding: 32px 0 22px; }
+    .page-intro h1 { font-size: 26px; }
+    .page-intro p { font-size: 14px; }
+    .progress { margin-bottom: 32px; padding: 0; }
+    .step-label { font-size: 10.5px; }
+    .step-num { width: 28px; height: 28px; font-size: 12px; }
+    .progress-line, .progress-line-fill { top: 14px; }
+    .step-head h2 { font-size: 22px; }
+    .step-head p { font-size: 13px; }
+    .field-row { grid-template-columns: 1fr; gap: 0; }
+    .field-row .field { margin-bottom: 18px; }
+    .photo-grid { grid-template-columns: repeat(3, 1fr); }
+    .step-nav { flex-direction: column-reverse; gap: 12px; align-items: stretch; padding-top: 20px; }
+    .step-nav-right { width: 100%; }
+    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    .save-hint { display: none; }
+    footer .row { flex-direction: column; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="container row">
+    <a href="#" class="logo">
+      <span class="logo-main">Utsav Yojana</span>
+      <span class="logo-sub">उत्सव योजना</span>
+    </a>
+    <nav class="primary">
+      <a href="#" class="help-link">Need help? hello@utsavyojana.com</a>
+    </nav>
+  </div>
+</header>
+
+<div class="form-container">
+  <div class="page-intro">
+    <h1>List your business</h1>
+    <p>Tell us about your work. We review every listing personally before it goes live — usually within 2–3 business days.</p>
+  </div>
+
+  <div class="progress">
+    <div class="progress-line"></div>
+    <div class="progress-line-fill" id="progress-fill"></div>
+    <div class="step-indicator active" data-step="1"><div class="step-num">1</div><div class="step-label">Business</div></div>
+    <div class="step-indicator" data-step="2"><div class="step-num">2</div><div class="step-label">Location</div></div>
+    <div class="step-indicator" data-step="3"><div class="step-num">3</div><div class="step-label">Pricing</div></div>
+    <div class="step-indicator" data-step="4"><div class="step-num">4</div><div class="step-label">Photos</div></div>
+    <div class="step-indicator" data-step="5"><div class="step-num">5</div><div class="step-label">Contact</div></div>
+  </div>
+
+  <form id="reg-form" autocomplete="on">
+
+    <!-- Step 1: Business basics -->
+    <section class="form-step" data-step="1">
+      <div class="step-head">
+        <h2>About your business</h2>
+        <p>This is what shows up on your public profile. Use the language your customers would.</p>
+      </div>
+
+      <div class="field">
+        <label class="lab">Business name</label>
+        <input class="in" name="business_name" required placeholder="Studio Saanjh">
+      </div>
+
+      <div class="field">
+        <label class="lab">About</label>
+        <p class="hint">2–3 short paragraphs. What you do, who you serve, what makes your work distinctive.</p>
+        <textarea class="in tall" name="description" required placeholder="Studio Saanjh is the work of Priya and Arjun Mehra, a husband-and-wife team based in Fremont. We've photographed over 80 South Asian weddings across California — from intimate sangeets in Berkeley to 500-guest weddings at the Hyatt Santa Clara.&#10;&#10;Our approach is documentary first: we'd rather catch your dadi laughing during the ardaas than line everyone up for the same staged shot."></textarea>
+      </div>
+
+      <div class="field">
+        <label class="lab">What you do</label>
+        <p class="hint">Pick all that apply. Can't see your category? Choose "Other" and tell us what you do.</p>
+        <div class="chip-grid">
+          <button type="button" class="chip" data-cat="photographer">Photographer</button>
+          <button type="button" class="chip" data-cat="videographer">Videographer</button>
+          <button type="button" class="chip" data-cat="caterer">Caterer</button>
+          <button type="button" class="chip" data-cat="decorator">Decorator</button>
+          <button type="button" class="chip" data-cat="florist">Florist</button>
+          <button type="button" class="chip" data-cat="dj">DJ &amp; music</button>
+          <button type="button" class="chip" data-cat="mehndi">Mehndi artist</button>
+          <button type="button" class="chip" data-cat="makeup">Makeup artist</button>
+          <button type="button" class="chip" data-cat="pandit">Pandit / priest</button>
+          <button type="button" class="chip" data-cat="planner">Event planner</button>
+          <button type="button" class="chip" data-cat="sweets">Sweets / mithai</button>
+          <button type="button" class="chip" data-cat="transport">Transportation</button>
+          <button type="button" class="chip" data-cat="jewelry">Jewelry</button>
+          <button type="button" class="chip" data-cat="clothing">Clothing &amp; sarees</button>
+          <button type="button" class="chip" data-cat="invitations">Invitations</button>
+          <button type="button" class="chip" data-cat="bartender">Bartender</button>
+          <button type="button" class="chip" data-cat="dhol">Dhol / live music</button>
+          <button type="button" class="chip" data-cat="other" id="chip-other">Other</button>
+        </div>
+        <input class="in hidden" id="other-cat-input" name="other_category" placeholder="Tell us what you do — we review these and add new categories regularly" style="margin-top: 12px;">
+      </div>
+
+      <div class="field">
+        <label class="lab">Languages spoken <span class="opt">optional</span></label>
+        <p class="hint">Helps users find someone they can communicate with comfortably.</p>
+        <div class="chip-grid">
+          <button type="button" class="chip" data-lang="english">English</button>
+          <button type="button" class="chip" data-lang="hindi">Hindi</button>
+          <button type="button" class="chip" data-lang="punjabi">Punjabi</button>
+          <button type="button" class="chip" data-lang="gujarati">Gujarati</button>
+          <button type="button" class="chip" data-lang="tamil">Tamil</button>
+          <button type="button" class="chip" data-lang="telugu">Telugu</button>
+          <button type="button" class="chip" data-lang="marathi">Marathi</button>
+          <button type="button" class="chip" data-lang="bengali">Bengali</button>
+          <button type="button" class="chip" data-lang="kannada">Kannada</button>
+          <button type="button" class="chip" data-lang="malayalam">Malayalam</button>
+          <button type="button" class="chip" data-lang="urdu">Urdu</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="lab">What's included <span class="opt">optional</span></label>
+        <p class="hint">One item per line. These show as a checklist on your profile.</p>
+        <textarea class="in" name="inclusions" placeholder="Two photographers, 8–12 hours of coverage&#10;500+ professionally edited photos&#10;Online gallery with download rights&#10;Optional cinematic highlight reel"></textarea>
+      </div>
+
+      <div class="step-nav">
+        <div class="save-hint">Your progress is saved as you go.</div>
+        <div class="step-nav-right">
+          <button type="button" class="btn-primary" onclick="nextStep(1)">Continue<i class="ti ti-arrow-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 2: Location -->
+    <section class="form-step hidden" data-step="2">
+      <div class="step-head">
+        <h2>Where do you serve?</h2>
+        <p>Start with your primary base. If you travel for events, describe where below — you can add additional service cities after approval.</p>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label class="lab">City</label>
+          <input class="in" name="city" required placeholder="Fremont">
+        </div>
+        <div class="field">
+          <label class="lab">State</label>
+          <select class="in" name="state" required>
+            <option value="">Select a state</option>
+            <option>California</option><option>New York</option><option>New Jersey</option><option>Texas</option><option>Illinois</option><option>Georgia</option><option>Washington</option><option>Massachusetts</option><option>Florida</option><option>Pennsylvania</option><option>Virginia</option><option>Maryland</option><option>Michigan</option><option>Ohio</option><option>North Carolina</option><option>Arizona</option><option>Colorado</option><option>Minnesota</option><option>Oregon</option><option>Connecticut</option>
+            <option disabled>──────────</option>
+            <option>Alabama</option><option>Alaska</option><option>Arkansas</option><option>Delaware</option><option>Hawaii</option><option>Idaho</option><option>Indiana</option><option>Iowa</option><option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option><option>New Hampshire</option><option>New Mexico</option><option>North Dakota</option><option>Oklahoma</option><option>Rhode Island</option><option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Utah</option><option>Vermont</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label class="lab">Postal code <span class="opt">optional</span></label>
+          <input class="in" name="postal_code" placeholder="94539">
+        </div>
+        <div class="field">
+          <label class="lab">Service radius <span class="opt">in miles</span></label>
+          <input class="in" type="number" name="service_radius" placeholder="50" min="0">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="lab">Service area notes <span class="opt">optional</span></label>
+        <p class="hint">If you travel for events or serve specific neighborhoods, describe that here.</p>
+        <textarea class="in" name="service_area_notes" placeholder="Available across the West Coast for destination weddings. Travel costs quoted separately for events outside the Bay Area." rows="3"></textarea>
+      </div>
+
+      <div class="step-nav">
+        <button type="button" class="btn-secondary" onclick="prevStep(2)"><i class="ti ti-arrow-left"></i>Back</button>
+        <div class="step-nav-right">
+          <button type="button" class="btn-primary" onclick="nextStep(2)">Continue<i class="ti ti-arrow-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 3: Pricing -->
+    <section class="form-step hidden" data-step="3">
+      <div class="step-head">
+        <h2>Pricing</h2>
+        <p>A price range helps users qualify themselves before contacting you. You can leave this blank if you only quote per inquiry — but vendors with pricing get noticeably more leads.</p>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label class="lab">Starting at <span class="opt">USD</span></label>
+          <input class="in" type="number" name="price_low" placeholder="3200" min="0">
+        </div>
+        <div class="field">
+          <label class="lab">Up to <span class="opt">USD</span></label>
+          <input class="in" type="number" name="price_high" placeholder="9500" min="0">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="lab">Per</label>
+        <select class="in" name="price_unit">
+          <option value="event">Event</option>
+          <option value="hour">Hour</option>
+          <option value="person">Person</option>
+          <option value="package">Package</option>
+          <option value="day">Day</option>
+        </select>
+      </div>
+
+      <div class="step-nav">
+        <button type="button" class="btn-secondary" onclick="prevStep(3)"><i class="ti ti-arrow-left"></i>Back</button>
+        <div class="step-nav-right">
+          <button type="button" class="btn-text" onclick="nextStep(3)">Skip pricing</button>
+          <button type="button" class="btn-primary" onclick="nextStep(3)">Continue<i class="ti ti-arrow-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 4: Photos -->
+    <section class="form-step hidden" data-step="4">
+      <div class="step-head">
+        <h2>Photos</h2>
+        <p>Aim for 5–10 photos that show your range. The first one becomes your hero image. You can reorder and add captions after upload.</p>
+      </div>
+
+      <div class="upload-zone" id="upload-zone">
+        <i class="ti ti-photo-plus"></i>
+        <p class="up-title">Drag photos here, or click to browse</p>
+        <p class="hint">JPG or PNG, up to 5MB each</p>
+      </div>
+
+      <div class="photo-grid">
+        <div class="photo-thumb first"><i class="ti ti-photo"></i></div>
+        <div class="photo-thumb"><i class="ti ti-photo"></i></div>
+        <div class="photo-thumb"><i class="ti ti-photo"></i></div>
+        <div class="photo-thumb add"><i class="ti ti-plus"></i></div>
+      </div>
+      <p class="hint" style="margin-top: 14px;">Drag thumbnails to reorder. Click any photo to add a caption or remove it.</p>
+
+      <div class="step-nav">
+        <button type="button" class="btn-secondary" onclick="prevStep(4)"><i class="ti ti-arrow-left"></i>Back</button>
+        <div class="step-nav-right">
+          <button type="button" class="btn-text" onclick="nextStep(4)">Skip for now</button>
+          <button type="button" class="btn-primary" onclick="nextStep(4)">Continue<i class="ti ti-arrow-right"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 5: Contact -->
+    <section class="form-step hidden" data-step="5">
+      <div class="step-head">
+        <h2>How can we reach you?</h2>
+        <p>This information stays private. We forward inquiries through a masked email so your address is never scraped from the public profile.</p>
+      </div>
+
+      <div class="privacy-note">
+        <i class="ti ti-lock"></i>
+        <span>Your email and phone are never shown on your public profile. Inquiries arrive via a masked address — you reply, and the user gets your message without your real email being exposed.</span>
+      </div>
+
+      <div class="field">
+        <label class="lab">Your name</label>
+        <input class="in" name="owner_name" required placeholder="Priya Mehra">
+      </div>
+
+      <div class="field">
+        <label class="lab">Email</label>
+        <p class="hint">Where inquiry notifications and approval updates will arrive.</p>
+        <input class="in" type="email" name="contact_email" required placeholder="hello@studiosaanjh.com">
+      </div>
+
+      <div class="field">
+        <label class="lab">Phone <span class="opt">optional</span></label>
+        <input class="in" type="tel" name="contact_phone" placeholder="(555) 123-4567">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label class="lab">Website <span class="opt">optional</span></label>
+          <input class="in" type="url" name="website_url" placeholder="studiosaanjh.com">
+        </div>
+        <div class="field">
+          <label class="lab">Instagram <span class="opt">optional</span></label>
+          <input class="in" name="instagram_url" placeholder="@studiosaanjh">
+        </div>
+      </div>
+
+      <div class="agree-block">
+        <label>
+          <input type="checkbox" required>
+          <span>I confirm that the information I've provided is accurate, that I have rights to publish any photos I've uploaded, and that I have the authority to list this business.</span>
+        </label>
+      </div>
+
+      <div class="step-nav">
+        <button type="button" class="btn-secondary" onclick="prevStep(5)"><i class="ti ti-arrow-left"></i>Back</button>
+        <div class="step-nav-right">
+          <button type="submit" class="btn-primary">Submit for review<i class="ti ti-send"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Success state -->
+    <section class="form-step hidden" data-step="success">
+      <div class="success-block">
+        <div class="success-ic"><i class="ti ti-check"></i></div>
+        <h2>Thanks — we got it.</h2>
+        <p>We review every listing personally. You'll hear from us within 2–3 business days at the email you provided.</p>
+        <p>If we have follow-up questions, we'll reach out directly. No further action needed from you right now.</p>
+        <div class="hint-block">
+          <strong style="display: block; margin-bottom: 6px;">What happens next:</strong>
+          <ol style="margin: 0; padding-left: 18px;">
+            <li>We read through your submission within 2–3 business days.</li>
+            <li>You receive an approval email with your live profile URL.</li>
+            <li>Inquiries from users start arriving in your inbox via masked email.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+  </form>
+</div>
+
+<footer class="site">
+  <div class="container row">
+    <div class="foot-left">Made for the Indian community in the US</div>
+    <div class="foot-links">
+      <a href="#">About</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const TOTAL_STEPS = 5;
+
+  function getStep(name) {
+    return document.querySelector(`.form-step[data-step="${name}"]`);
+  }
+
+  function showStep(name) {
+    document.querySelectorAll('.form-step').forEach(s => s.classList.add('hidden'));
+    getStep(name).classList.remove('hidden');
+    if (typeof name === 'number') updateProgress(name);
+    if (name === 'success') document.querySelector('.progress').classList.add('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(current) {
+    document.querySelectorAll('.step-indicator').forEach((el, i) => {
+      const n = i + 1;
+      el.classList.remove('active', 'done');
+      if (n < current) el.classList.add('done');
+      if (n === current) el.classList.add('active');
+    });
+    const fill = document.getElementById('progress-fill');
+    const pct = ((current - 1) / (TOTAL_STEPS - 1)) * 100;
+    const container = document.querySelector('.progress');
+    const lineEl = document.querySelector('.progress-line');
+    fill.style.width = `calc(${pct}% - ${pct * 0.48}px)`;
+  }
+
+  function validateStep(step) {
+    const section = getStep(step);
+    const required = section.querySelectorAll('[required]');
+    for (const f of required) {
+      if (!f.value || (typeof f.value === 'string' && f.value.trim() === '')) {
+        f.focus();
+        f.style.borderColor = '#C75D2C';
+        setTimeout(() => f.style.borderColor = '', 2000);
+        return false;
+      }
+    }
+    if (step === 1) {
+      const cats = document.querySelectorAll('.chip[data-cat].selected');
+      if (cats.length === 0) {
+        document.querySelector('.chip[data-cat]').focus();
+        return false;
+      }
+      const otherSelected = document.getElementById('chip-other').classList.contains('selected');
+      const otherInput = document.getElementById('other-cat-input');
+      if (otherSelected && !otherInput.value.trim()) {
+        otherInput.focus();
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function nextStep(current) {
+    if (!validateStep(current)) return;
+    showStep(current + 1);
+  }
+  function prevStep(current) { showStep(current - 1); }
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('selected');
+      if (chip.id === 'chip-other') {
+        const input = document.getElementById('other-cat-input');
+        input.classList.toggle('hidden', !chip.classList.contains('selected'));
+        if (chip.classList.contains('selected')) input.focus();
+      }
+    });
+  });
+
+  document.getElementById('reg-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!validateStep(5)) return;
+    showStep('success');
+  });
+
+  document.getElementById('upload-zone').addEventListener('click', () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.multiple = true;
+    input.click();
+  });
+
+  updateProgress(1);
+</script>
+
+</body>
+</html>

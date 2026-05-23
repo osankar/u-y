@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Saanjh — Utsav Yojana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+<style>
+  :root {
+    --bg: #FAF7F2;
+    --surface: #FFFFFF;
+    --surface-alt: #F4EFE7;
+    --text: #1A1A1A;
+    --text-muted: #6B6B6B;
+    --text-subtle: #9B9B9B;
+    --accent: #C75D2C;
+    --accent-hover: #A84A1F;
+    --accent-soft: #FDF1EB;
+    --accent-soft-strong: #F8DDC8;
+    --border: #E8E4DD;
+    --border-strong: #D5CFC4;
+    --shadow-sm: 0 1px 2px rgba(26,26,26,0.04);
+    --shadow-md: 0 4px 16px rgba(26,26,26,0.06);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, -apple-system, sans-serif; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+  header.site {
+    border-bottom: 0.5px solid var(--border);
+    background: var(--bg);
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(8px);
+  }
+  header .row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 0;
+  }
+  .logo { display: flex; flex-direction: column; line-height: 1; text-decoration: none; color: inherit; }
+  .logo-main { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; letter-spacing: -0.01em; }
+  .logo-sub { font-family: 'Fraunces', serif; font-size: 11px; color: var(--text-subtle); margin-top: 3px; letter-spacing: 0.06em; }
+  nav.primary { display: flex; gap: 28px; align-items: center; }
+  nav.primary a { font-size: 14px; font-weight: 500; text-decoration: none; }
+  nav.primary a:hover { color: var(--accent); }
+  .list-btn { border: 1px solid var(--text); padding: 9px 18px; border-radius: 999px; font-size: 13px; }
+  .list-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  .breadcrumb { padding: 22px 0 0; font-size: 13px; color: var(--text-muted); }
+  .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--accent); text-decoration: underline; }
+  .breadcrumb-sep { margin: 0 8px; color: var(--text-subtle); }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 220px 220px;
+    gap: 4px;
+    margin: 20px 0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .ph {
+    position: relative;
+    background: linear-gradient(135deg, var(--accent-soft) 0%, var(--accent-soft-strong) 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+    font-size: 32px;
+  }
+  .ph.large { grid-row: span 2; background: linear-gradient(135deg, #F8DDC8 0%, #E9C0A0 100%); }
+  .ph:nth-child(2) { background: linear-gradient(135deg, #FAECE7 0%, #F0CFC0 100%); }
+  .ph:nth-child(3) { background: linear-gradient(135deg, #F4EFE7 0%, #DCD3C3 100%); }
+  .ph:nth-child(4) { background: linear-gradient(135deg, #F0CFC0 0%, #D8A88E 100%); }
+  .ph:nth-child(5) { background: linear-gradient(135deg, #E5DED0 0%, #C5B89F 100%); }
+  .gallery-cta {
+    position: absolute; bottom: 14px; right: 14px;
+    background: rgba(255,255,255,0.95);
+    border: 0.5px solid var(--border);
+    padding: 8px 14px; border-radius: 999px;
+    font-size: 13px; font-weight: 500; color: var(--text);
+    box-shadow: var(--shadow-sm);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 56px;
+    padding: 16px 0 64px;
+  }
+  .title-block { padding-top: 12px; }
+  h1.vendor-name { font-family: 'Fraunces', serif; font-size: 40px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.05; margin: 0 0 10px; }
+  .vendor-meta { font-size: 16px; color: var(--text-muted); margin: 0 0 18px; }
+  .tag-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag { font-size: 12px; padding: 6px 13px; border-radius: 999px; font-weight: 500; }
+  .tag.accent { background: var(--accent-soft); color: var(--accent); }
+  .tag.neutral { background: transparent; color: var(--text-muted); border: 0.5px solid var(--border-strong); }
+
+  hr.divider { height: 0.5px; background: var(--border); margin: 36px 0; border: none; }
+
+  section h2.section-title {
+    font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500;
+    margin: 0 0 14px; letter-spacing: -0.01em;
+  }
+  section p { color: var(--text); margin: 0 0 12px; font-size: 15.5px; line-height: 1.7; }
+
+  ul.checklist { padding: 0; list-style: none; margin: 0; }
+  ul.checklist li {
+    padding: 10px 0 10px 28px; position: relative; font-size: 15px; line-height: 1.5;
+  }
+  ul.checklist li::before {
+    content: ''; position: absolute; left: 0; top: 18px;
+    width: 16px; height: 0.5px; background: var(--accent);
+  }
+
+  aside.cta {
+    position: sticky; top: 96px; align-self: start;
+    margin-top: 20px;
+  }
+  .cta-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: var(--shadow-md);
+  }
+  .cta-label { font-size: 11px; color: var(--text-subtle); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; font-weight: 500; }
+  .cta-price { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 500; line-height: 1.1; margin: 0; }
+  .cta-unit { font-size: 14px; color: var(--text-muted); margin-bottom: 22px; }
+  .cta-btn {
+    display: block; width: 100%; text-align: center;
+    background: var(--accent); color: white;
+    border: none; padding: 15px 18px; border-radius: 10px;
+    font-size: 15px; font-weight: 500; font-family: inherit;
+    cursor: pointer; transition: background 0.15s ease;
+  }
+  .cta-btn:hover { background: var(--accent-hover); }
+  .cta-micro { text-align: center; font-size: 12.5px; color: var(--text-subtle); margin: 12px 0 0; }
+  .facts { margin-top: 26px; padding-top: 22px; border-top: 0.5px solid var(--border); }
+  .fact { display: flex; justify-content: space-between; padding: 7px 0; font-size: 14px; }
+  .fact-label { color: var(--text-muted); }
+  .fact-value { color: var(--text); font-weight: 500; }
+
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(26,26,26,0.55);
+    display: none;
+    align-items: flex-start; justify-content: center;
+    padding: 5vh 20px;
+    z-index: 100;
+    overflow-y: auto;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: 14px;
+    width: 100%; max-width: 540px;
+    padding: 36px;
+    box-shadow: 0 24px 64px rgba(26,26,26,0.25);
+  }
+  .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 26px; }
+  .modal-title { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 500; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .modal-subtitle { font-size: 13px; color: var(--text-muted); margin: 0; }
+  .modal-close { background: none; border: none; font-size: 26px; cursor: pointer; color: var(--text-subtle); padding: 0; width: 30px; height: 30px; line-height: 1; }
+  .modal-close:hover { color: var(--text); }
+  .prefill {
+    background: var(--accent-soft);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .field { margin-bottom: 16px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .lab { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+  .lab-opt { color: var(--text-subtle); font-weight: 400; font-size: 12px; margin-left: 4px; }
+  .in, select.in, textarea.in {
+    width: 100%; border: 0.5px solid var(--border-strong);
+    border-radius: 7px; padding: 11px 13px;
+    font-size: 14px; font-family: inherit; background: var(--bg); color: var(--text);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .in:focus { outline: none; border-color: var(--accent); background: var(--surface); }
+  textarea.in { min-height: 110px; resize: vertical; line-height: 1.55; }
+  .submit-btn {
+    width: 100%; background: var(--accent); color: white;
+    border: none; padding: 15px; border-radius: 10px;
+    font-size: 15px; font-weight: 500; font-family: inherit; cursor: pointer;
+    margin-top: 6px;
+  }
+  .submit-btn:hover { background: var(--accent-hover); }
+  .fine { font-size: 11.5px; color: var(--text-subtle); text-align: center; margin-top: 14px; line-height: 1.55; }
+  .success { text-align: center; padding: 16px 0 8px; }
+  .success-ic { width: 60px; height: 60px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: inline-flex; align-items: center; justify-content: center; font-size: 30px; margin-bottom: 18px; }
+
+  @media (max-width: 900px) {
+    .container { padding: 0 18px; }
+    .gallery { grid-template-columns: 1fr; grid-template-rows: 280px; }
+    .gallery .ph:not(.large) { display: none; }
+    .gallery .ph.large { grid-row: span 1; }
+    .body { grid-template-columns: 1fr; gap: 28px; }
+    aside.cta { position: static; margin-top: 0; }
+    .modal { padding: 28px; }
+    .field-row { grid-template-columns: 1fr; gap: 0; }
+    h1.vendor-name { font-size: 32px; }
+    nav.primary a:not(.list-btn) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="container row">
+    <a href="home.html" class="logo">
+      <span class="logo-main">Utsav Yojana</span>
+      <span class="logo-sub">उत्सव योजना</span>
+    </a>
+    <nav class="primary">
+      <a href="#">Browse vendors</a>
+      <a href="#">Plan an event</a>
+      <a href="#" class="list-btn">List your business</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="browse.html">Bay Area</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="browse.html">Photographers</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Studio Saanjh</span>
+  </div>
+
+  <div class="gallery">
+    <div class="ph large"><i class="ti ti-photo"></i></div>
+    <div class="ph"><i class="ti ti-photo"></i></div>
+    <div class="ph"><i class="ti ti-photo"></i></div>
+    <div class="ph"><i class="ti ti-photo"></i></div>
+    <div class="ph">
+      <i class="ti ti-photo"></i>
+      <div class="gallery-cta"><i class="ti ti-grid-dots"></i> View all 24 photos</div>
+    </div>
+  </div>
+
+  <div class="body">
+    <main>
+      <div class="title-block">
+        <h1 class="vendor-name">Studio Saanjh</h1>
+        <p class="vendor-meta">Photography &amp; videography · Fremont, CA · Serves Bay Area + Sacramento</p>
+        <div class="tag-row">
+          <span class="tag accent">Photographer</span>
+          <span class="tag accent">Videographer</span>
+          <span class="tag neutral">Documentary style</span>
+          <span class="tag neutral">English · Hindi · Punjabi</span>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <section>
+        <h2 class="section-title">About</h2>
+        <p>Studio Saanjh is the work of Priya and Arjun Mehra, a husband-and-wife team based in Fremont. We've photographed over 80 South Asian weddings and family events across California — from intimate Punjabi sangeets in Berkeley backyards to 500-guest Gujarati weddings at the Hyatt Santa Clara.</p>
+        <p>Our approach is documentary first: we'd rather catch your dadi laughing during the ardaas than line everyone up for the same staged shot you've seen on Instagram a thousand times. The result is an album that feels like your family, not a stock catalog.</p>
+      </section>
+
+      <hr class="divider">
+
+      <section>
+        <h2 class="section-title">What's included</h2>
+        <ul class="checklist">
+          <li>Pre-event consultation and shot-list planning</li>
+          <li>Two photographers for full event coverage (8–12 hours typical)</li>
+          <li>500+ professionally edited photos with online gallery</li>
+          <li>Download and print rights for all images</li>
+          <li>Optional cinematic highlight reel (3–5 minutes)</li>
+          <li>Backup gear and second-shooter coverage on multi-day events</li>
+        </ul>
+      </section>
+
+      <hr class="divider">
+
+      <section>
+        <h2 class="section-title">Service area</h2>
+        <p>Based in Fremont. Travel included for events within 50 miles. Available for destination events across California and the West Coast — travel costs quoted separately.</p>
+      </section>
+    </main>
+
+    <aside class="cta">
+      <div class="cta-card">
+        <div class="cta-label">Pricing</div>
+        <p class="cta-price">$3,200 – $9,500</p>
+        <div class="cta-unit">per event</div>
+        <button class="cta-btn" id="open-inquiry">Request a quote</button>
+        <p class="cta-micro">Free · Most vendors reply within 48 hours</p>
+        <div class="facts">
+          <div class="fact"><span class="fact-label">Service area</span><span class="fact-value">Bay Area + travel</span></div>
+          <div class="fact"><span class="fact-label">Languages</span><span class="fact-value">EN · HI · PA</span></div>
+          <div class="fact"><span class="fact-label">Team size</span><span class="fact-value">2 photographers</span></div>
+          <div class="fact"><span class="fact-label">Member since</span><span class="fact-value">May 2026</span></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal">
+  <div class="modal" id="modal-inner">
+    <div class="modal-header">
+      <div>
+        <h2 class="modal-title">Request a quote</h2>
+        <p class="modal-subtitle">Studio Saanjh · Photography &amp; Videography</p>
+      </div>
+      <button class="modal-close" id="close-inquiry" aria-label="Close">×</button>
+    </div>
+    <div class="prefill">
+      <i class="ti ti-building-store"></i>
+      <span>Your inquiry goes to Studio Saanjh — we never show vendor contact info publicly.</span>
+    </div>
+    <form id="inquiry-form">
+      <div class="field-row">
+        <div class="field">
+          <label class="lab">Your name</label>
+          <input class="in" required value="Priya Sharma">
+        </div>
+        <div class="field">
+          <label class="lab">Email</label>
+          <input type="email" class="in" required value="priya@example.com">
+        </div>
+      </div>
+      <div class="field">
+        <label class="lab">Phone <span class="lab-opt">optional</span></label>
+        <input class="in" placeholder="(555) 123-4567">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="lab">Event type</label>
+          <select class="in">
+            <option>Wedding</option>
+            <option>Engagement</option>
+            <option>Anniversary</option>
+            <option>Baby shower</option>
+            <option>Housewarming</option>
+            <option>Birthday</option>
+            <option>Graduation</option>
+            <option>Puja / Ritual</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="lab">Event date</label>
+          <input type="date" class="in" value="2026-11-14">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="lab">Guest count</label>
+          <input type="number" class="in" value="250">
+        </div>
+        <div class="field">
+          <label class="lab">Budget range</label>
+          <select class="in">
+            <option>$2,000 – $4,000</option>
+            <option selected>$4,000 – $7,000</option>
+            <option>$7,000 – $10,000</option>
+            <option>$10,000+</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label class="lab">Message to vendor</label>
+        <textarea class="in">Hi! We're getting married at the Hyatt Santa Clara on Nov 14, with a sangeet the night before in Fremont. Looking for full coverage of both events plus a highlight reel. Saw your sangeet work on Instagram — loved the candid style.</textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send request</button>
+      <p class="fine">By sending, you agree to share your contact info with Studio Saanjh. We never expose vendor or inquiry data publicly.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var openBtn = document.getElementById('open-inquiry');
+    var closeBtn = document.getElementById('close-inquiry');
+    var modal = document.getElementById('modal');
+    var modalInner = document.getElementById('modal-inner');
+    var form = document.getElementById('inquiry-form');
+
+    openBtn.addEventListener('click', function() { modal.classList.add('open'); });
+    closeBtn.addEventListener('click', function() { modal.classList.remove('open'); });
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) modal.classList.remove('open');
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') modal.classList.remove('open');
+    });
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      modalInner.innerHTML = '<div class="success">' +
+        '<div class="success-ic"><i class="ti ti-check"></i></div>' +
+        '<h2 class="modal-title">Request sent</h2>' +
+        '<p class="modal-subtitle" style="margin-top:8px; line-height:1.55;">Studio Saanjh has been notified. Most vendors reply within 48 hours — check your email, your inbox will hear from them directly.</p>' +
+        '<button class="cta-btn" style="margin-top:24px; max-width:220px; display:inline-block;" onclick="document.getElementById(\'modal\').classList.remove(\'open\')">Done</button>' +
+        '</div>';
+    });
+  })();
+</script>
+
+</body>
+</html>
