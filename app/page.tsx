@@ -10,7 +10,7 @@ export default function Home() {
     >
       <h1
         style={{
-          fontFamily: 'Fraunces, Georgia, serif',
+          fontFamily: 'var(--font-display), Georgia, serif',
           fontSize: '38px',
           fontWeight: 500,
           color: 'var(--text)',
@@ -24,7 +24,7 @@ export default function Home() {
 
       <p
         style={{
-          fontFamily: 'Inter, system-ui, sans-serif',
+          fontFamily: 'var(--font-sans), system-ui, sans-serif',
           fontSize: '16px',
           color: 'var(--text-muted)',
           lineHeight: 1.55,
@@ -58,7 +58,7 @@ export default function Home() {
       >
         <div
           style={{
-            fontFamily: 'Fraunces, Georgia, serif',
+            fontFamily: 'var(--font-display), Georgia, serif',
             fontSize: '14.5px',
             fontWeight: 500,
             color: 'var(--text)',

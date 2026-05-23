@@ -24,8 +24,8 @@ const config: Config = {
         "border-strong": "var(--border-strong)",
       },
       fontFamily: {
-        display: ["Fraunces", "Georgia", "serif"],
-        sans: ["Inter", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
       },
       maxWidth: {
         content: "820px",

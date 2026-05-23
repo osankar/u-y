@@ -26,7 +26,7 @@ export default function Header() {
         <Link href="/" style={{ textDecoration: 'none', lineHeight: 1 }}>
           <div
             style={{
-              fontFamily: 'Fraunces, Georgia, serif',
+              fontFamily: 'var(--font-display), Georgia, serif',
               fontSize: '18px',
               fontWeight: 500,
               color: 'var(--text)',
@@ -37,7 +37,7 @@ export default function Header() {
           </div>
           <div
             style={{
-              fontFamily: 'Inter, system-ui, sans-serif',
+              fontFamily: 'var(--font-sans), system-ui, sans-serif',
               fontSize: '10px',
               color: 'var(--text-subtle)',
               letterSpacing: '0.01em',

@@ -25,7 +25,7 @@ export default function Footer() {
         <div>
           <div
             style={{
-              fontFamily: 'Fraunces, Georgia, serif',
+              fontFamily: 'var(--font-display), Georgia, serif',
               fontSize: '16px',
               fontWeight: 500,
               color: 'var(--text)',
@@ -35,7 +35,7 @@ export default function Footer() {
           </div>
           <div
             style={{
-              fontFamily: 'Inter, system-ui, sans-serif',
+              fontFamily: 'var(--font-sans), system-ui, sans-serif',
               fontSize: '10px',
               color: 'var(--text-subtle)',
               marginTop: '2px',

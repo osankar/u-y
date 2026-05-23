@@ -179,13 +179,24 @@ If you find a real conflict that this hierarchy doesn't resolve, flag it to the 
 
 ---
 
-## 11. Things that aren't here yet
+## 11. Local development
 
-If you're asked to work on any of these, they don't exist in this repo:
+The Next.js scaffold is in place. To run locally:
 
-- No Next.js project scaffolded yet — `app/`, `package.json`, `tsconfig.json` are not present.
-- No Supabase project keys committed — that's on the operator to set up.
+1. Copy env template: `cp .env.local.example .env.local`
+2. Fill in Supabase keys (Project Settings → API), Resend API key, and optional Sentry/PostHog/ADMIN_EMAIL values.
+3. Apply `schema.sql` to your Supabase project if not already done.
+4. Install and start:
+
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). API routes: `POST /api/inquiries`, `POST /api/vendors/register`.
+
+**Not yet in repo:**
+
+- No Supabase project keys committed — operator sets these in `.env.local`.
 - No tests, no CI configuration.
 - No deployment configuration for Vercel.
-
-When the implementation starts, add the relevant getting-started instructions to this file under a new "Local development" section.

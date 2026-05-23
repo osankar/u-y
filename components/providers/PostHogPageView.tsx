@@ -9,7 +9,7 @@ export default function PostHogPageView() {
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    if (!pathname) return
+    if (!process.env.NEXT_PUBLIC_POSTHOG_KEY || !pathname) return
     const url = searchParams.toString()
       ? `${pathname}?${searchParams.toString()}`
       : pathname

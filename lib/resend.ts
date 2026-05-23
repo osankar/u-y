@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/nextjs'
 import { Resend } from 'resend'
 
 let _resend: Resend | null = null
@@ -12,10 +13,25 @@ function getResend(): Resend {
 }
 
 const FROM = () => process.env.RESEND_FROM_EMAIL ?? 'noreply@utsavyojana.com'
+const ADMIN_EMAIL = () => process.env.ADMIN_EMAIL
 
 function replyToAddress(replyToken: string): string {
   const domain = FROM().split('@')[1] ?? 'utsavyojana.com'
   return `reply+${replyToken}@${domain}`
+}
+
+export type EmailResult = { ok: boolean }
+
+/** Fire-and-forget — email failure must not fail the DB write. */
+export function sendEmailAsync(
+  label: string,
+  send: () => Promise<EmailResult>
+): void {
+  void send().then((result) => {
+    if (!result.ok) {
+      Sentry.captureMessage(`${label} failed`, 'warning')
+    }
+  })
 }
 
 export async function sendInquiryNotification(payload: {
@@ -26,7 +42,7 @@ export async function sendInquiryNotification(payload: {
   message: string
   replyToken: string
   eventTypeName?: string
-}): Promise<{ ok: boolean }> {
+}): Promise<EmailResult> {
   try {
     await getResend().emails.send({
       from: FROM(),
@@ -44,8 +60,35 @@ export async function sendInquiryNotification(payload: {
       ].join('\n'),
     })
     return { ok: true }
-  } catch (err) {
-    console.error('[resend] sendInquiryNotification failed', err)
+  } catch {
+    console.error('[resend] sendInquiryNotification failed')
+    return { ok: false }
+  }
+}
+
+export async function sendInquiryConfirmationToGuest(payload: {
+  guestEmail: string
+  guestName: string
+  vendorName: string
+}): Promise<EmailResult> {
+  try {
+    await getResend().emails.send({
+      from: FROM(),
+      to: payload.guestEmail,
+      subject: `We sent your inquiry to ${payload.vendorName}`,
+      text: [
+        `Hi ${payload.guestName},`,
+        '',
+        `Your message to ${payload.vendorName} is on its way. They'll reply to you by email — usually within a few days.`,
+        '',
+        "If you don't hear back, try another vendor or send a follow-up from the same email address you used here.",
+        '',
+        '— The Utsav Yojana team',
+      ].join('\n'),
+    })
+    return { ok: true }
+  } catch {
+    console.error('[resend] sendInquiryConfirmationToGuest failed')
     return { ok: false }
   }
 }
@@ -53,7 +96,7 @@ export async function sendInquiryNotification(payload: {
 export async function sendVendorRegistrationConfirmation(payload: {
   businessName: string
   contactEmail: string
-}): Promise<{ ok: boolean }> {
+}): Promise<EmailResult> {
   try {
     await getResend().emails.send({
       from: FROM(),
@@ -70,8 +113,41 @@ export async function sendVendorRegistrationConfirmation(payload: {
       ].join('\n'),
     })
     return { ok: true }
-  } catch (err) {
-    console.error('[resend] sendVendorRegistrationConfirmation failed', err)
+  } catch {
+    console.error('[resend] sendVendorRegistrationConfirmation failed')
+    return { ok: false }
+  }
+}
+
+export async function sendVendorRegistrationAdminAlert(payload: {
+  businessName: string
+  slug: string
+  city: string
+  state: string
+  providerId: string
+}): Promise<EmailResult> {
+  const adminEmail = ADMIN_EMAIL()
+  if (!adminEmail) return { ok: true }
+
+  try {
+    await getResend().emails.send({
+      from: FROM(),
+      to: adminEmail,
+      subject: `New vendor listing to review — ${payload.businessName}`,
+      text: [
+        'A new vendor submitted a listing for manual review.',
+        '',
+        `Business: ${payload.businessName}`,
+        `Slug: ${payload.slug}`,
+        `Location: ${payload.city}, ${payload.state}`,
+        `Provider ID: ${payload.providerId}`,
+        '',
+        'Review in Supabase Studio and set status to approved or rejected.',
+      ].join('\n'),
+    })
+    return { ok: true }
+  } catch {
+    console.error('[resend] sendVendorRegistrationAdminAlert failed')
     return { ok: false }
   }
 }
